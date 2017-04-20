@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>todoMVC</title>
+        <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/app.css">
+    </head>
+    <body ng-app="Todos">
+ 		<section class="todoapp" ng-controller="TodoCtrl">
+ 			<header class="header">
+ 				<h1>todos</h1>
+ 				<form ng-submit="add()">
+ 					<input class="new-todo" ng-model="todo"placeholder="What needs to be done?" autofocus>
+ 				</form>
+ 			</header>
+ 			<section class="main">
+ 				<input class="toggle-all" type="checkbox">
+ 				<label for="toggle-all"> Mark all as complete</label>
+ 				<ul class="todo-list">
+ 					<li ng-repeat="todo in todos">
+ 						<div class="view">
+ 							<input class="toggle"type="checkbox" ng-checked="todo.flag" ng-click="done($index)">
+ 							<label>{{todo.text}}</label>
+ 							<button class="destory"></button>
+ 						</div>
+ 						<input class="edit" value="todos">
+ 					</li>
+ 					<li><h3>完成</h3></li>
+ 					<li ng-repeat="todo in doneTods">
+ 						<div class="view">
+ 							<input class="toggle" type="checkbox" ng-checked="todo.flag">
+ 							<label >{{todo.text}}</label>
+ 							<button class="destory"></button>
+ 						</div>
+ 						<input class="edit" value="todos">
+ 					</li>
+ 				</ul>
+ 			</section>
+ 			<footer class="footer">
+ 				<span class="todo-count"><strong>{{todos.length}}</strong>item left</span>
+ 				<button class="clear-completed">Clear</button>
+ 			</footer>
+ 			</section>   
+ 			<footer class="info">
+				<p>Double-click to edit a todo</p>
+				<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+				<p>Created by <a href="http://todomvc.com">you</a></p>
+				<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		</footer>
+		<script src="libs/angular.min.js"></script>
+			<script>
+			var Todos = angular.module('Todos',[]);
+				Todos.controller('TodoCtrl',['$scope',function($scope){
+					//初始一个数组，来储存待办事项
+					$scope.todos=[];
+					//提交事件回调
+					$scope.add= function(){
+						//$scope.todo是从视图传递过来数据，将视图传递过来的数据添加至数组中
+						$scope.todos.push({text: $scope.todo,flag:false});
+						//清空视图表单数据
+						$scope.todo='';
+					}
+					//初始化一个数组，用来存储已经完成的事项
+					  $scope.doneTods=[];
+					  //完成事件
+					  $scope.done = function(key){
+					  	//key是数据对应的索引值，根据索引值获取数据
+					  	 var todo =$scope.todos.splice(key,1)[0];
+					  	 //更改状态为已完成
+					  	 todo.flag = true;
+
+					  	 $scope.doneTods.push(todo);
+					  }
+
+					 
+					 
+
+				}]);
+			</script>
+ 		
+    </body>
+</html>
